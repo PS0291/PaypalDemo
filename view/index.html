@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Paypal</title>
+    <style>
+        .button {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            left: 50%;
+            top: 52%;
+            margin-top: -15px;   /* = -height / 2   */
+            margin-left: -100px; /* = -width / 2    */
+            position: fixed;     /* Fixed is better */
+        }
+        .button1 {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin-top: -15px;   /* = -height / 2   */
+            margin-left: -100px; /* = -width / 2    */
+            position: fixed;
+            cursor: pointer;
+            top: 40%;
+            left:50%
+        }
+        .txt {
+            appearance: none;
+            -moz-appearance: none;
+            -webkit-appearance: none;
+            left: 50%;
+            top: 48%;
+            margin-top: -15px;   /* = -height / 2   */
+            margin-left: -100px; /* = -width / 2    */
+            position: fixed;     /* Fixed is better */
+        }
+    </style>
+</head>
+<body>
+<form action="/order" method="post" target="_top">
+    <a href="/transactions" class="button1">View Transactions</a></button>
+    <input type="hidden" name="id" id="item_id" />
+    <div class="button">
+        <div id="txt"></div>
+        <br />
+        <div>
+            <select name="id" onchange="getItem(this.value)">
+                <option value="">
+                    Select Item to buy ...
+                </option>
+                <% for(let i=0; i < items.length; i++) { %>
+                <option value="<%= JSON.stringify(items[i]) %>">
+                    <%= items[i].name %>
+                </option>
+                <% } %>
+            </select>
+        </div><br />
+        <div id="paypal-btn" style="display: none">
+            <input  type="image" src="https://www.sandbox.paypal.com/en_US/GB/i/btn/btn_buynowCC_LG.gif" border="0" name="submit" alt="PayPal – The safer, easier way to pay online!">
+            <img alt="" border="0" src="https://www.sandbox.paypal.com/en_GB/i/scr/pixel.gif" width="1" height="1">
+        </div>
+    </div>
+</form>
+<script>
+    function getItem(data) {
+        if (data !== "") {
+            const item = JSON.parse(data)
+            document.getElementById('item_id').value = item.id
+            document.getElementById('txt').innerText = item.name + " - " + item.amount + " " + item.currency
+            document.getElementById('paypal-btn').style.display = 'block'
+        } else {
+            document.getElementById('paypal-btn').style.display = 'none'
+            document.getElementById('txt').innerText = ""
+        }
+    }
+</script>
+</body>
+</html>

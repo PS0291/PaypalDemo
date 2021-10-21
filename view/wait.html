@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Please wait ( Wait for me! )</title>
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Titillium Web', sans-serif;
+        }
+        .loading {
+            position: absolute;
+            left: 0;
+            right: 0;
+            top: 50%;
+            width: 100px;
+            margin: auto;
+            -webkit-transform: translateY(-50%);
+            -moz-transform: translateY(-50%);
+            -o-transform: translateY(-50%);
+            transform: translateY(-50%);
+        }
+        .loading span {
+            position: absolute;
+            height: 10px;
+            width: 84px;
+            top: 50px;
+            overflow: hidden;
+        }
+        .loading span > i {
+            position: absolute;
+            height: 4px;
+            width: 4px;
+            border-radius: 50%;
+            -webkit-animation: wait 4s infinite;
+            -moz-animation: wait 4s infinite;
+            -o-animation: wait 4s infinite;
+            animation: wait 4s infinite;
+        }
+        .loading span > i:nth-of-type(1) {
+            left: -28px;
+            background: black;
+        }
+        .loading span > i:nth-of-type(2) {
+            left: -21px;
+            -webkit-animation-delay: 0.8s;
+            animation-delay: 0.8s;
+            background: red;
+        }
+
+        @-webkit-keyframes wait {
+            0%   { left: -7px  }
+            30%  { left: 52px  }
+            60%  { left: 22px  }
+            100% { left: 100px }
+        }
+        @-moz-keyframes wait {
+            0%   { left: -7px  }
+            30%  { left: 52px  }
+            60%  { left: 22px  }
+            100% { left: 100px }
+        }
+        @-o-keyframes wait {
+            0%   { left: -7px  }
+            30%  { left: 52px  }
+            60%  { left: 22px  }
+            100% { left: 100px }
+        }
+        @keyframes wait {
+            0%   { left: -7px  }
+            30%  { left: 52px  }
+            60%  { left: 22px  }
+            100% { left: 100px }
+        }
+    </style>
+</head>
+<body>
+<div class="loading">
+    <p>Please wait</p>
+    <span><i></i><i></i></span>
+</div>
+<script>
+    (async () => {
+        const urlParams = new URLSearchParams(window.location.search)
+        const data = {
+            orderId: urlParams.get('token')
+        }
+        const rawResponse = await fetch('/capture', {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        });
+        const content = await rawResponse.json();
+        if (content.success) {
+            window.location.href = '/success?amount='+content.order.purchase_units[0].payments.captures[0].amount.value+'&id='+content.order.purchase_units[0].payments.captures[0].id
+        } else {
+            window.location.href = '/error'
+        }
+    })()
+</script>
+</body>
+</html>
