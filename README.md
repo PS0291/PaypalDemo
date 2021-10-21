@@ -1,6 +1,6 @@
-#Coding Assignment for Paypal
+# Coding Assignment for Paypal
 # Pre-requisites
-*Nodejs 14.8
+* Nodejs 14.8
 
 # Installation Steps'
 
