@@ -4,10 +4,10 @@
 
 # Installation Steps'
 
-* Clone the repository.
+* Checkout the code.
 * Rename env.example to env
 * Update the API credentials in env file
-* Switch to Paypal-Assignment directory
+* Switch to the directory where code is checked out
 * Run npm install
 * Run node index.js
 * App will be started on localhost at 3000 port.
